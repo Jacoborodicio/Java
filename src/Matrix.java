@@ -3,6 +3,7 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -26,15 +27,22 @@ public class Matrix extends JFrame implements ActionListener{
 	
 	
 	private JButton [][] botones;
+	ImageIcon bomba = new ImageIcon("mina.jpg");
 
-
+	int ancho;
+	int alto;
+	int filas, columnas;
+	
+	
 	Matrix(int num_fil, int num_col)
 	{
 		super("Matrix");
-		setBounds(200,200,400,400);
+		setBounds(100,100,600,600);
 		setVisible(true);
-		
-		
+		filas = num_fil;
+		columnas = num_col;
+		ancho = this.getWidth();
+		alto =  this.getHeight();
 		/**
 		JToolBar barra = new JToolBar();
 		JLabel etqtaFilas = new JLabel();
@@ -92,7 +100,7 @@ public class Matrix extends JFrame implements ActionListener{
 	        panel.removeAll();
 	        panel.updateUI();
 	       */
-		
+	
 		Container contentpane = getContentPane();
 		//Parámetros GridLayout(num filas, num columnas, hgap(espacio horizontal), vgap(espacio vertical))
 		//En este caso utilizamos el otro constructor para evitar espacios entre elementos.
@@ -107,7 +115,8 @@ public class Matrix extends JFrame implements ActionListener{
 				//botones[i][j] = new JButton(new ImageIcon("stone.jpg"));
 				//contentpane.add(botones[i][j]);
 				botones[i][j] = new JButton();
-				botones[i][j].setIcon(new ImageIcon("stone.jpg"));
+				ImageIcon img = new ImageIcon("tierra.jpg");
+				botones[i][j].setIcon(new ImageIcon(img.getImage().getScaledInstance(ancho/num_fil, alto/num_col,Image.SCALE_SMOOTH)));
 				botones[i][j].addActionListener(this);
 				contentpane.add(botones[i][j]);
 			}
@@ -138,14 +147,10 @@ public class Matrix extends JFrame implements ActionListener{
 		//Parametros: posicion fila, posicion columnas.
 		public void actionPerformed(ActionEvent evento) {
 			JButton button = (JButton) evento.getSource();
-			button.setIcon(new ImageIcon("lava.jpg"));
+			button.setIcon(new ImageIcon(bomba.getImage().getScaledInstance(ancho/filas, alto/columnas,Image.SCALE_SMOOTH)));
 		}
 	
 	
-		void cambiarIcono(int f,int c)
-		{
-			botones[f-1][c-1].setIcon(new ImageIcon("lava.jpg"));
-		}
 		
 	
 
@@ -160,14 +165,9 @@ public class Matrix extends JFrame implements ActionListener{
 		System.out.println("Numero de COLUMNAS:  ");
 		columnas = in.nextInt();
 		
-		System.out.println("Obstaculo:");
-		int f = in.nextInt();
-		int c = in.nextInt();
-		
 		
 		Matrix ventana = new Matrix(filas, columnas);
 		
-		ventana.cambiarIcono(f, c);
 		//ventana.botones[f_obs][c_obs] = new JButton(new ImageIcon("stone.jpg"));
 		//********ventana.botones[f_obs][c_obs].setBackground(null);
 		
